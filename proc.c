@@ -532,3 +532,26 @@ procdump(void)
     cprintf("\n");
   }
 }
+int getyear(){
+  return 2020;
+}
+
+int getChildren(int pid){
+   struct proc *p;
+    int children = 0;
+    
+    
+
+    acquire(&ptable.lock);
+
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+      if(p->parent->pid == pid){
+        children = pid + 100*(children);
+        
+      } 
+
+    release(&ptable.lock);
+    
+
+    return children;
+}

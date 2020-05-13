@@ -89,3 +89,11 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+int 
+sys_getyear(void){
+  return getyear();
+}
+int
+sys_getChildren(void){
+  return getChildren(myproc()->pid);
+}
