@@ -546,7 +546,7 @@ int getChildren(int pid){
 
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
       if(p->parent->pid == pid){
-        children = pid + 100*(children);
+        children = p->pid + 100*(children);
         
       } 
 
