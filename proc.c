@@ -90,6 +90,8 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
 
+  p->clockNumber= QUANTUM;
+
   release(&ptable.lock);
 
   // Allocate kernel stack.
