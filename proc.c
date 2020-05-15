@@ -15,6 +15,7 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
+int algorithmNum = 0;
 extern void forkret(void);
 extern void trapret(void);
 
@@ -325,6 +326,7 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
+
   
   for(;;){
     // Enable interrupts on this processor.
@@ -332,6 +334,10 @@ scheduler(void)
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
+
+    if(algorithmNum ==0 ){
+      //The default round robin algorithm of xv6
+    
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
@@ -345,7 +351,7 @@ scheduler(void)
 
       swtch(&(c->scheduler), p->context);
       switchkvm();
-
+    }
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       c->proc = 0;
@@ -554,4 +560,8 @@ int getChildren(int pid){
     
 
     return children;
+}
+int changePolicy(int num){
+  algorithmNum = num;
+  return 0;
 }

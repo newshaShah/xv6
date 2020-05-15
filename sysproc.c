@@ -97,3 +97,11 @@ int
 sys_getChildren(void){
   return getChildren(myproc()->pid);
 }
+int 
+sys_changePolicy(void){
+    int policy;
+
+  if(argint(0, &policy) < 0)
+    return -1;
+  return changePolicy(policy);
+}
