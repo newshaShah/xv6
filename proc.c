@@ -86,11 +86,14 @@ allocproc(void)
   release(&ptable.lock);
   return 0;
 
+
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
 
   p->clockNumber= QUANTUM;
+  p->priority = 1;
+  p->changeable_priority = 0;
 
   release(&ptable.lock);
 
@@ -358,6 +361,42 @@ scheduler(void)
       // It should have changed its p->state before coming back.
       c->proc = 0;
     }
+    else if (algorithmNum  == 1)
+    {
+      //Impeementing priority algorithm 
+      //process with least changable_priority should be selected
+      
+      int highestPriority = __INT_MAX__; //__INT_MAX__  is the highest int.
+      // Process with __INT_MAX__ priority has the least priority
+      struct proc * selectedProcess = 0;
+      for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+      {
+        if (p->state != RUNNABLE)
+          continue;
+
+        if (p->changeable_priority < highestPriority)
+        {
+          highestPriority = p->changeable_priority;
+          selectedProcess = p;
+        }
+      }
+      c->proc = selectedProcess;
+      if (selectedProcess != 0)
+      {
+
+      
+        switchuvm(selectedProcess);
+        selectedProcess->state = RUNNING;
+        swtch(&(c->scheduler), selectedProcess->context);
+        switchkvm();
+        //each time that the process runs, the value of the priority would be added to changeable priority
+        c->proc->changeable_priority = c->proc->changeable_priority + c->proc->priority; 
+     
+
+      }
+    }
+
+
     release(&ptable.lock);
 
   }
