@@ -567,3 +567,9 @@ int changePolicy(int num){
   algorithmNum = num;
   return 0;
 }
+int setPriority(int pr){
+  
+    myproc()->priority = pr;
+
+    return 0;
+}

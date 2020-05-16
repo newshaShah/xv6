@@ -123,6 +123,7 @@ void            yield(void);
 int             getyear(void);
 int             getChildren(int);
 int             changePolicy(int);
+int             setPriority(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

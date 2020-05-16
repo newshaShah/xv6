@@ -32,4 +32,4 @@ SYSCALL(uptime)
 SYSCALL(getyear)
 SYSCALL(getChildren)
 SYSCALL(changePolicy)
-
+SYSCALL(setPriority)

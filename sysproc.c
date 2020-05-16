@@ -105,3 +105,14 @@ sys_changePolicy(void){
     return -1;
   return changePolicy(policy);
 }
+
+int 
+sys_setPriority(void){
+  int priority;
+ 
+  if (argint(0,&priority)<0)
+    return -1;
+  
+
+  return setPriority(priority);
+}
