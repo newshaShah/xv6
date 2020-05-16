@@ -124,6 +124,7 @@ int             getyear(void);
 int             getChildren(int);
 int             changePolicy(int);
 int             setPriority(int);
+int             waitForChild(int*, int*, int*,int*,int*);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
@@ -138,7 +139,7 @@ void            pushcli(void);
 void            popcli(void);
 
 // sleeplock.c
-void            acquiresleep(struct sleeplock*);
+void       644:644:     acquiresleep(struct sleeplock*);
 void            releasesleep(struct sleeplock*);
 int             holdingsleep(struct sleeplock*);
 void            initsleeplock(struct sleeplock*, char*);

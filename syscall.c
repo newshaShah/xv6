@@ -107,6 +107,7 @@ extern int sys_getyear(void);
 extern int sys_getChildren(void);
 extern int sys_changePolicy(void);
 extern int sys_setPriority(void);
+extern int sys_waitForChild(void);
 
 
 static int (*syscalls[])(void) = {
@@ -135,6 +136,7 @@ static int (*syscalls[])(void) = {
 [SYS_getChildren] sys_getChildren,
 [SYS_changePolicy] sys_changePolicy,
 [SYS_setPriority] sys_setPriority,
+[SYS_waitForChild] sys_waitForChild,
 };
 
 void

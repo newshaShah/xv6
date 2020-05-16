@@ -612,3 +612,57 @@ int setPriority(int pr){
 
     return 0;
 }
+int waitForChild(int *creation_time ,int *running_time,int *sleep_time,int *waiting_time,int *termination_time){
+  
+  struct proc *p;
+  int havekids, pid;
+  struct proc *curproc = myproc();
+
+  acquire(&ptable.lock);
+  for (;;)
+  {
+    // Scan through table looking for exited children.
+    havekids = 0;
+    for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+    {
+      if (p->parent != curproc)
+        continue;
+      havekids = 1;
+      if (p->state == ZOMBIE)
+      {
+        // Found one.
+        pid = p->pid;
+        kfree(p->kstack);
+        p->kstack = 0;
+        freevm(p->pgdir);
+        p->pid = 0;
+        p->parent = 0;
+        p->name[0] = 0;
+        p->killed = 0;
+        p->state = UNUSED;
+        // copy the time values of proccess to the ouput pointers
+        *creation_time = p->ctime;
+        *running_time = p->rtime;
+        *sleep_time = p->stime;
+        *waiting_time = p->wtime;
+        *termination_time = p->ttime;
+        //    cprintf("creation_time => %d", *creation_time);
+        //   cprintf("** creation_time => %d ,running_time2 => %d ,sleep_time => %d ,waiting_time => %d ,termination_time => %d  \n", p->creation_time, p->running_time, p->sleep_time, p->waiting_time, p->termination_time);
+        release(&ptable.lock);
+        return pid;
+      }
+    }
+
+    // No point waiting if we don't have any children.
+    if (!havekids || curproc->killed)
+    {
+      release(&ptable.lock);
+      return -1;
+    }
+
+    // Wait for children to exit.  (See wakeup1 call in proc_exit.)
+    sleep(curproc, &ptable.lock); //DOC: wait-sleep
+  }
+  
+  
+}

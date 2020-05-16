@@ -116,3 +116,24 @@ sys_setPriority(void){
 
   return setPriority(priority);
 }
+
+int 
+sys_waitForChild(void){
+
+ int *creation_time;
+  int *running_time;
+  int *sleep_time;
+  int *waiting_time;
+  int *termination_time;
+  argptr(0, (void *)&creation_time, sizeof(*creation_time));
+  argptr(1, (void *)&running_time, sizeof(*running_time));
+  argptr(2, (void *)&sleep_time, sizeof(*sleep_time));
+  argptr(3, (void *)&waiting_time, sizeof(*waiting_time));
+  argptr(4, (void *)&termination_time, sizeof(*termination_time));
+  
+
+ return waitForChild(creation_time,running_time,sleep_time,waiting_time,termination_time);
+  
+
+
+}
