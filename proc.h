@@ -60,6 +60,7 @@ struct proc {
   int stime;                   //sleeping time
   int wtime;                   //waiting time
   int ttime;                   //terminarion time
+  int procTicks;                   
 };
 
 // Process memory is laid out contiguously, low addresses first:

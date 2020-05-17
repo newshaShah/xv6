@@ -363,7 +363,7 @@ scheduler(void)
     }
     else if (algorithmNum  == 1)
     {
-      //Impeementing priority algorithm 
+      //Impementing priority algorithm 
       //process with least changable_priority should be selected
       
       int highestPriority = __INT_MAX__; //__INT_MAX__  is the highest int.
@@ -395,6 +395,116 @@ scheduler(void)
 
       }
     }
+
+    else if(algorithmNum==2){
+
+      //Implementing Multi level queue
+       
+       //first step f each queue is to set process ticks zero
+      for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+      {
+        if (p->state == RUNNABLE)
+            p->procTicks = 0;
+        
+      }
+      //implementing priority algorithm for first queue
+      
+        int highestPriority = __INT_MAX__;
+       struct proc * selectedProcess = 0;
+
+        for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+        {
+          //if each process had 10 procTicks queue should be changed
+          if(isQueueProcessDone()) break;
+
+          if (p->state != RUNNABLE)
+              continue;
+          if(p->procTicks > 10)
+              continue;
+          if (p->changeable_priority < highestPriority)
+          {
+            highestPriority = p->changeable_priority;
+            selectedProcess = p;
+            int x = p->procTicks ;
+            p -> procTicks = x+1;
+          }
+
+        }
+        c->proc = selectedProcess;
+        if (selectedProcess != 0)
+        {
+
+        
+          switchuvm(selectedProcess);
+          selectedProcess->state = RUNNING;
+          swtch(&(c->scheduler), selectedProcess->context);
+          switchkvm();
+          //each time that the process runs, the value of the priority would be added to changeable priority
+          c->proc->changeable_priority = c->proc->changeable_priority + c->proc->priority; 
+        }
+      
+////////////////////////////////////////////////second queue///////////////////////////////////////////////////////
+
+       for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+      {
+        if (p->state == RUNNABLE)
+            p->procTicks = 0;
+        
+      }
+
+       
+        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+          if(isQueueProcessDone())break;
+          if(p->state != RUNNABLE)
+            continue;
+
+          // Switch to chosen process.  It is the process's job
+          // to release ptable.lock and then reacquire it
+          // before jumping back to us.
+          c->proc = p;
+          switchuvm(p);
+          p->state = RUNNING;
+          int x = p->procTicks;
+          p->procTicks = x+1;
+
+          swtch(&(c->scheduler), p->context);
+          switchkvm();
+        }
+          // Process is done running for now.
+          // It should have changed its p->state before coming back.
+          //c->proc = 0;
+      
+///////////////////////////////////////////////third queue/////////////////////////////////////////////////////////////
+      for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+            {
+              if (p->state == RUNNABLE)
+                  p->procTicks = 0;
+              
+            }
+      
+        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+          
+          if(p->state != RUNNABLE)
+            continue;
+
+          // Switch to chosen process.  It is the process's job
+          // to release ptable.lock and then reacquire it
+          // before jumping back to us.
+          c->proc = p;
+          switchuvm(p);
+          p->state = RUNNING;
+          int x = p->procTicks;
+          p->procTicks = x+1;
+
+          swtch(&(c->scheduler), p->context);
+          switchkvm();
+        }
+          // Process is done running for now.
+          // It should have changed its p->state before coming back.
+          //c->proc = 0;
+      
+  }
+
 
 
     release(&ptable.lock);
@@ -612,6 +722,23 @@ int setPriority(int pr){
 
     return 0;
 }
+int isQueueProcessDone(){
+  struct proc *p;
+    
+
+    acquire(&ptable.lock);
+
+   for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+        {
+          if (p->state != RUNNABLE)
+              continue;
+          if(p->procTicks < 10)
+            return 0;
+        }
+        release(&ptable.lock);
+        return 1;
+
+}
 int waitForChild(int *creation_time ,int *running_time,int *sleep_time,int *waiting_time,int *termination_time){
   
   struct proc *p;
@@ -622,6 +749,8 @@ int waitForChild(int *creation_time ,int *running_time,int *sleep_time,int *wait
   for (;;)
   {
     // Scan through table looking for exited children.
+    //only a flag to see whether a process have children or not
+    //we can also use getChildren syscall
     havekids = 0;
     for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     {
