@@ -29,6 +29,7 @@ int changePolicy(int);
 int setPriority(int);
 int waitForChild(int*,int*,int*,int*,int*);
 
+
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);

@@ -95,6 +95,16 @@ found:
   p->priority = 1;
   p->changeable_priority = 0;
 
+   p->clockNumber = QUANTUM;
+  // init creation time with ticks of the system at the moment
+  p->rtime = 0;
+  
+  p->stime = 0;
+  p->wtime = 0;
+  p->ttime = 0;
+  p->q_level = 0;
+
+
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -793,5 +803,25 @@ int waitForChild(int *creation_time ,int *running_time,int *sleep_time,int *wait
     sleep(curproc, &ptable.lock); //DOC: wait-sleep
   }
   
+  
+}
+
+int setTimes(void){
+
+  acquire(&ptable.lock);
+  for (struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if (p->state == RUNNABLE)
+    {
+      p->wtime += 1;
+    }
+    if (p->state == SLEEPING)
+    {
+      p->stime += 1;
+    }
+  }
+  release(&ptable.lock);
+  
+  return 0;
   
 }

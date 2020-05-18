@@ -137,6 +137,7 @@ static int (*syscalls[])(void) = {
 [SYS_changePolicy] sys_changePolicy,
 [SYS_setPriority] sys_setPriority,
 [SYS_waitForChild] sys_waitForChild,
+
 };
 
 void

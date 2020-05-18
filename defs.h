@@ -126,6 +126,7 @@ int             changePolicy(int);
 int             setPriority(int);
 int             waitForChild(int*, int*, int*,int*,int*);
 int             isQueueProcessDone(void);
+int             setTimes(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

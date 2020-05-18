@@ -45,6 +45,7 @@ trap(struct trapframe *tf)
       exit();
     return;
   }
+   setTimes();
 
   switch(tf->trapno){
   case T_IRQ0 + IRQ_TIMER:
@@ -106,11 +107,21 @@ trap(struct trapframe *tf)
      tf->trapno == T_IRQ0+IRQ_TIMER)
     { 
      // cprintf("pid = %d  clock number = %d \n",myproc()->pid,myproc()->numberOfClock);
+       myproc()->rtime = myproc()->rtime + 1;
+        if (myproc()->q_level == 2)
+          {
+            myproc()->clockNumber = 1;
+          }
 
        myproc()->clockNumber = myproc()->clockNumber-1 ;
-   if(myproc()->clockNumber == 0 ){
-     myproc()->clockNumber = QUANTUM;
-      yield();
+      if(myproc()->clockNumber == 0 ){
+        if(myproc()->q_level==2)
+            myproc()->clockNumber = 1;
+        else{
+          myproc()->clockNumber = QUANTUM;
+        }
+          
+       yield();
    }
      //  yield();
     }

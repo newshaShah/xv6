@@ -50,7 +50,7 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
-  int clockNumber;
+  int clockNumber;             // number of clocks for proccess for each contextswitching for this process
 
   int priority;
   int changeable_priority;
@@ -61,6 +61,10 @@ struct proc {
   int wtime;                   //waiting time
   int ttime;                   //terminarion time
   int procTicks;                   
+ // int quantom; // number of clocks for proccess for each contextswitching for this process
+  int q_level;
+
+
 };
 
 // Process memory is laid out contiguously, low addresses first:
