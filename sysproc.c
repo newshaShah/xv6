@@ -137,3 +137,8 @@ sys_waitForChild(void){
 
 
 }
+int setProcTimes(void){
+
+  return setTimes();
+  
+}

@@ -2,12 +2,6 @@
 #include "stat.h"
 #include "user.h"
 
-// int fib(int n)
-// {
-//     if (n <= 1)
-//         return 1;
-//     return fib(n-1)+fib(n-2);
-// }
 
 
 int junk_func(int n) 
@@ -22,7 +16,7 @@ int junk_func(int n)
 
 int main(void)
 {
-    // set scheduling policy to default
+    // set scheduling policy to default scheduling 
     changePolicy(0);
     int numberOfProccesses = 12;
     for (int i = 0; i < numberOfProccesses; i++)
@@ -30,7 +24,7 @@ int main(void)
         int pid = fork();
         if (pid == 0)
         {
-            // child proccess run bunch of codes
+            // just doing some actions to take time
             junk_func(35);
             
             exit();

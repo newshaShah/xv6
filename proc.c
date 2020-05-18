@@ -101,7 +101,8 @@ found:
   
   p->stime = 0;
   p->wtime = 0;
-  p->ttime = 0;
+  p->ctime = ticks; 
+  p->ttime = ticks;
   p->q_level = 0;
 
 
@@ -279,6 +280,8 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
+  curproc->ttime = ticks;
+
   sched();
   panic("zombie exit");
 }

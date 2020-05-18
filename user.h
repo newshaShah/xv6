@@ -27,7 +27,7 @@ int getyear(void);
 int getChildren(void);
 int changePolicy(int);
 int setPriority(int);
-int waitForChild(int*,int*,int*,int*,int*);
+int waitForChild(int* ctime,int* rtime,int* stime,int* wtime,int* ttime);
 
 
 // ulib.c
