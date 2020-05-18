@@ -428,12 +428,13 @@ scheduler(void)
         for (p = ptable.proc; p < &ptable.proc[NPROC]; p++)
         {
           //if each process had 10 procTicks queue should be changed
-          if(isQueueProcessDone()) break;
+        //  if(isQueueProcessDone()) break;
 
           if (p->state != RUNNABLE)
               continue;
           if(p->procTicks > 10)
               continue;
+          p->q_level = 1;
           if (p->changeable_priority < highestPriority)
           {
             highestPriority = p->changeable_priority;
@@ -467,7 +468,7 @@ scheduler(void)
 
        
         for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-          if(isQueueProcessDone())break;
+        //  if(isQueueProcessDone())break;
           if(p->state != RUNNABLE)
             continue;
 
@@ -475,6 +476,7 @@ scheduler(void)
           // to release ptable.lock and then reacquire it
           // before jumping back to us.
           c->proc = p;
+          p->q_level = 2;
           switchuvm(p);
           p->state = RUNNING;
           int x = p->procTicks;
@@ -504,6 +506,7 @@ scheduler(void)
           // to release ptable.lock and then reacquire it
           // before jumping back to us.
           c->proc = p;
+          p->q_level = 3;
           switchuvm(p);
           p->state = RUNNING;
           int x = p->procTicks;

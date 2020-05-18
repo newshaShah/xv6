@@ -23,7 +23,7 @@ int main(void)
         int pid = fork();
         if (pid == 0)
         {
-            // change priority of each process process with a larger pid has larger priority 
+            // change priority of each process process. later the process is made larger priority it has
             int priority;
             priority = (i+1)*2;
             setPriority(priority);
