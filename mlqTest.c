@@ -24,7 +24,7 @@ int main(void)
         int pid = fork();
         if (pid == 0)
         {
-            junk_func(30);
+            junk_func(35);
             
             exit();
         }

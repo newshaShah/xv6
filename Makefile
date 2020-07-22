@@ -17,6 +17,7 @@ OBJS = \
 	proc.o\
 	sleeplock.o\
 	spinlock.o\
+	ticketlock.o\
 	string.o\
 	swtch.o\
 	syscall.o\
@@ -186,6 +187,7 @@ UPROGS=\
 	_quantaTest\
 	_priorityTest\
 	_mlqTest\
+	_ticketlockTest\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -260,6 +262,8 @@ EXTRA=\
 	quantaTest.c\
 	priorityTest.c\
 	mlqTest.c\
+	ticketlock.c\
+	ticketlockTest.c\
 	printf.c umalloc.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\

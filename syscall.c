@@ -109,6 +109,8 @@ extern int sys_changePolicy(void);
 extern int sys_setPriority(void);
 extern int sys_waitForChild(void);
 
+extern int sys_ticketlockInit(void);
+extern int sys_ticketlockTest(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -137,6 +139,8 @@ static int (*syscalls[])(void) = {
 [SYS_changePolicy] sys_changePolicy,
 [SYS_setPriority] sys_setPriority,
 [SYS_waitForChild] sys_waitForChild,
+[SYS_ticketlockInit] sys_ticketlockInit,
+[SYS_ticketlockTest] sys_ticketlockTest,
 
 };
 

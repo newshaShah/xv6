@@ -117,6 +117,19 @@ sys_setPriority(void){
   return setPriority(priority);
 }
 
+void
+sys_ticketlockInit(void)
+{
+    init_tlock();
+}
+
+int
+sys_ticketlockTest(void)
+{
+    return inc_sh_mem();
+}
+
+
 int 
 sys_waitForChild(void){
 

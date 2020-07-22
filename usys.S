@@ -34,4 +34,5 @@ SYSCALL(getChildren)
 SYSCALL(changePolicy)
 SYSCALL(setPriority)
 SYSCALL(waitForChild)
-
+SYSCALL(ticketlockInit)
+SYSCALL(ticketlockTest)
