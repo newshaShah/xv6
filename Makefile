@@ -188,6 +188,7 @@ UPROGS=\
 	_priorityTest\
 	_mlqTest\
 	_ticketlockTest\
+	_rwTest\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -264,6 +265,7 @@ EXTRA=\
 	mlqTest.c\
 	ticketlock.c\
 	ticketlockTest.c\
+	rwTest.c\
 	printf.c umalloc.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
